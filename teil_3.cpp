@@ -26,13 +26,25 @@ void RenderScene() //Zeichenfunktion
 
 	// Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
 	glLoadIdentity();   // Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
-	//gluLookAt(0., 0, 1., 0., 0., 0., 0., 1., 0.);  // vorne frontal
-	//gluLookAt(0., 1., 1., 0., 0., 0., 0., 1., 0.); // vorne oben
-	//gluLookAt(1., 0., 0., 0., 0, 0., 0., 1., 0.);  //rechts frontal
-	gluLookAt(1., 1., 0., 0., -1, 0., 0., 1., 0.);   // rechts oben
+	gluLookAt(0., 0., 1., 0., 0., 0., 0., 1., 0.);
 
-	//glTranslatef(0., 0., -1.);
+	glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der gesamten Szene
+	//Oberarm
+	glPushMatrix();
+	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der einzelnen komponente
+	glScalef(1, 0.5, 0);					//verzerren
+	//glTranslatef(0.25, 0, 0);				//Matrix-Multiplikation, setzt position ?
 	Wuerfel(0.4);
+	glPopMatrix();
+
+	//Unterarm
+	glPushMatrix();
+	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);
+	glScalef(1, 0.25, 0);
+	glTranslatef(0.35, 0, 0);
+	Wuerfel(0.4);
+	glPopMatrix();
+
 	glutSwapBuffers();
 }
 

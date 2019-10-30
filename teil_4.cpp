@@ -5,6 +5,8 @@
 #include <GL/freeglut.h>         //lädt alles für OpenGL
 #include "Wuerfel.h" 
 
+float fRotation = 315.0; // globale Variable :-( 
+
 void Init()
 {
 	// Hier finden jene Aktionen statt, die zum Programmstart einmalig 
@@ -18,21 +20,34 @@ void Init()
 
 void RenderScene() //Zeichenfunktion
 {
-	
 
-	//glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0, 0.7, 0.0, 1.0);
 
 	// Hier befindet sich der Code der in jedem Frame ausgefuehrt werden muss
 	glLoadIdentity();   // Aktuelle Model-/View-Transformations-Matrix zuruecksetzen
-	//gluLookAt(0., 0, 1., 0., 0., 0., 0., 1., 0.);  // vorne frontal
-	//gluLookAt(0., 1., 1., 0., 0., 0., 0., 1., 0.); // vorne oben
-	//gluLookAt(1., 0., 0., 0., 0, 0., 0., 1., 0.);  //rechts frontal
-	gluLookAt(1., 1., 0., 0., -1, 0., 0., 1., 0.);   // rechts oben
+	gluLookAt(0., 0., 1., 0., 0., 0., 0., 1., 0.);
 
-	//glTranslatef(0., 0., -1.);
+	glutWireCube(0.2);
+	glTranslatef(0.1, 0.1, 0);				// rotieren um obere rechte kante des roten würfels (Schultergelenk)
+	glRotatef(fRotation, 0.0f, 0.0f, 1.0f);	//rotieren der gesamten Szene
+
+	//   Oberarm   //
+	glPushMatrix();
+	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der einzelnen komponente
+	glScalef(1, 0.5, 0);					//verzerren
+	glTranslatef(0.25, 0, 0);				//Matrix-Multiplikation, setzt position ?
 	Wuerfel(0.4);
+	glPopMatrix();
+
+	//   Unterarm   //
+	glPushMatrix();
+	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der einzelnen komponente
+	glScalef(1, 0.25, 0);
+	glTranslatef(0.65, 0, 0);
+	Wuerfel(0.4);
+	glPopMatrix();
+
 	glutSwapBuffers();
 }
 
@@ -50,8 +65,9 @@ void Reshape(int width, int height)
 	// Frustum definieren (siehe unten)
 	//glOrtho(-1., 1., -1, 1.0, 0.0, 1.0);
 	//glOrtho(-1., 1., -1., 1., 0.0, 3.0);
+
 	// gluPerspective(senkr. Oeffnungsw., Seitenverh., zNear, zFar);
-	gluPerspective(45., 1., 0.1, 2.0);
+	gluPerspective(90., 1., 0.1, 2.0);   // um den Arm ganz zu sehen Öffnungsweite auf 90°
 
 
 	// Matrix für Modellierung/Viewing
@@ -64,6 +80,12 @@ void Animate(int value)
 	// erforderlich sind. Dieser Prozess läuft im Hintergrund und wird alle 
 	// 1000 msec aufgerufen. Der Parameter "value" wird einfach nur um eins 
 	// inkrementiert und dem Callback wieder uebergeben. 
+
+	fRotation = fRotation - 1.0; // Rotationswinkel aendern
+	if (fRotation <= 0.0) {
+		fRotation = fRotation + 360.0;
+	}
+
 	std::cout << "value=" << value << std::endl;
 	// RenderScene aufrufen
 	glutPostRedisplay();
