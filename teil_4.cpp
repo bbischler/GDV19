@@ -36,7 +36,7 @@ void RenderScene() //Zeichenfunktion
 	glPushMatrix();
 	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der einzelnen komponente
 	glScalef(1, 0.5, 0);					//verzerren
-	glTranslatef(0.25, 0, 0);				//Matrix-Multiplikation, setzt position ?
+	glTranslatef(0.2, 0, 0);				//Matrix-Multiplikation, setzt position ?
 	Wuerfel(0.4);
 	glPopMatrix();
 
@@ -44,7 +44,7 @@ void RenderScene() //Zeichenfunktion
 	glPushMatrix();
 	//glRotatef(-45.0f, 0.0f, 0.0f, 1.0f);	//rotieren der einzelnen komponente
 	glScalef(1, 0.25, 0);
-	glTranslatef(0.65, 0, 0);
+	glTranslatef(0.6, 0, 0);
 	Wuerfel(0.4);
 	glPopMatrix();
 

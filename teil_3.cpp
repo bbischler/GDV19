@@ -9,9 +9,11 @@ void Init()
 {
 	// Hier finden jene Aktionen statt, die zum Programmstart einmalig 
 	// durchgeführt werden müssen
-	glEnable(GL_DEPTH_TEST);
-	glClearDepth(1.0);
+	glEnable(GL_DEPTH_TEST) ;
 
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearDepth(1.0);
 }
 
 
