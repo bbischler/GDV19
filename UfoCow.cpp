@@ -570,9 +570,11 @@ void KeyboardFunc(unsigned char key, int x, int y)
 
 
 void ZeigeHilfe() {
-	std::cout << "Hilfe zur Bedienung: \n";
+	std::cout << "Fange die Kuh mit dem Warp-Strahl und lass sie in den Eimer fallen! \n\n";
+	std::cout << "UFO: WASD QE \n";
 	std::cout << "Space: Warp-Power!!!! \n";
-	std::cout << "R: Restart Game \n";
+	std::cout << "F: Drop da Cow \n";
+	std::cout << "R: Restart Game \n\n";
 	std::cout << "Pfeiltaste Links: Ansicht nach Rechts drehen\n";
 	std::cout << "Pfeiltaste Rechts: Ansicht nach Links drehen \n";
 	std::cout << "Pfeiltaste Oben: Ansicht nach Oben drehen \n";
