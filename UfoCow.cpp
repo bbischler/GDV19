@@ -7,8 +7,12 @@
 #include <GL/freeglut.h>         //lädt alles für OpenGL
 #include <soil.h>
 #include "math.h"
-
 #include "Wuerfel.h"
+
+
+#include<windows.h>
+#include<mmsystem.h>
+
 float angle = 0.0;
 float bewegunHoch = 1;
 float kameraY = -0.001;
@@ -40,6 +44,8 @@ float UFO_PosZ = 0.0;
 float UFO_Speed_X = 0.1;
 float UFO_Speed_Y = 0.1;
 float UFO_Speed_Z = 0.1;
+
+bool hasBeeped = false;
 
 GLenum filterMode = GL_LINEAR;   //Init-Wert fuer die Texturfilterung
 GLuint texNum = 0;               //Startwert fuer "level of detail"
@@ -81,6 +87,9 @@ void Init()
 	glEnable(GL_LIGHTING);
 	GLfloat light_position[] = { 1.,2.0, 1.0, 0.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position); // Licht Nr. 0 rechts oben
+	glEnable(GL_LIGHTING);
+	GLfloat light_position2[] = { 4.,9.0, 4.0, 3.0 };
+	glLightfv(GL_LIGHT1, GL_POSITION, light_position2); // Licht Nr. 0 rechts oben
 	glEnable(GL_COLOR_MATERIAL);
 	
 }
@@ -408,6 +417,7 @@ void RenderScene() //Zeichenfunktion
 }
 
 void restartGame() {
+	hasBeeped = false;
 	angle = 0.0;
 	bewegunHoch = 1;
 	kameraY = -0.001;
@@ -439,6 +449,18 @@ void restartGame() {
 	UFO_Speed_Z = 0.05;
 }
 
+void playSound() {
+	//Beep(440, 500);
+	//Beep(554, 250);
+	//Beep(659, 250);
+	//Beep(830, 250);
+	//Beep(987, 250);
+
+	PlaySound(TEXT("D:\\muh.wav"), NULL, SND_ASYNC);
+
+	hasBeeped = true;
+}
+
 void collisionDetectionCowUFO() {
 	float dx = UFO_PosX - COW_PosX;
 	float dy = (UFO_PosY - 1.5) - COW_PosY;
@@ -448,7 +470,9 @@ void collisionDetectionCowUFO() {
 	float distance = sqrt(dx * dx + dy * dy + dz * dz);
 
 
-	if (distance <= 0.5 && warp && !dropTheCow) {
+	if (distance <= 0.8 && warp && !dropTheCow) {
+		if(!hasBeeped)
+			playSound();
 		contactCowUFO = true;
 		connected = true;
 		COW_PosX = UFO_PosX;
@@ -459,7 +483,6 @@ void collisionDetectionCowUFO() {
 		contactCowUFO = false;
 	}
 }
-
 
 void collisionDetectionCowEimer() {
 	float dx = EIMER_PosX - COW_PosX;
@@ -599,7 +622,7 @@ void KeyboardFuncKey(int key, int x, int y)
 	}
 
 	else if (key == GLUT_KEY_UP) { 
-		if (bewegunHoch < 5.0)
+		if (bewegunHoch < 10.0)
 			bewegunHoch = bewegunHoch + 0.2;
 	}
 
